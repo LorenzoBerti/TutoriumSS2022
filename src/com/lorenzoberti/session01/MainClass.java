@@ -18,6 +18,8 @@ public class MainClass {
 
 		System.out.println("Today is a nice day!");
 
+		System.out.println("Absolutely!");
+
 	}
 
 }
