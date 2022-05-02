@@ -16,6 +16,7 @@ public class MainClass {
 
 		System.out.println("Hello World!");
 
+		System.out.println("You are running Java version " + System.getProperty("java.version"));
 
 	}
 
