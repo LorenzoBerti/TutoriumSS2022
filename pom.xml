@@ -15,4 +15,21 @@
       </plugin>
     </plugins>
   </build>
+  <dependencies>
+  	<dependency>
+  		<groupId>net.finmath</groupId>
+  		<artifactId>finmath-lib</artifactId>
+  		<version>6.0.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>net.finmath</groupId>
+  		<artifactId>finmath-experiments</artifactId>
+  		<version>0.2.3-SNAPSHOT</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>net.finmath</groupId>
+  		<artifactId>finmath-lib-plot-extensions</artifactId>
+  		<version>0.4.5</version>
+  	</dependency>
+  </dependencies>
 </project>
