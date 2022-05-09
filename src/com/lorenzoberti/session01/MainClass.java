@@ -27,6 +27,7 @@ public class MainClass {
 		String answer2 = in.nextLine(); // comments
 		// something
 		// add some comments
+		// new comments
 		if (answer2.equals("Bad")) {
 			System.out.println("Oh no! Why?");
 			String answer3 = in.nextLine();
