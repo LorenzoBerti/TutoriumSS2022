@@ -16,10 +16,6 @@ public class MainClass {
 	 */
 	public static void main(String[] args) {
 
-//		System.out.println("Hello World!");
-//
-//		System.out.println("You are running Java version " + System.getProperty("java.version"));
-
 		System.out.println("Hi! I am Java " + System.getProperty("java.version") + ". What's your name?");
 
 		Scanner in = new Scanner(System.in);
@@ -28,7 +24,7 @@ public class MainClass {
 
 		System.out.println("Hello " + answer1 + ", nice to meet you! How are you?");
 
-		String answer2 = in.nextLine();
+		String answer2 = in.nextLine(); // add some comments
 
 		if (answer2.equals("Bad")) {
 			System.out.println("Oh no! Why?");
