@@ -16,10 +16,6 @@ public class MainClass {
 	 */
 	public static void main(String[] args) {
 
-//		System.out.println("Hello World!");
-//
-//		System.out.println("You are running Java version " + System.getProperty("java.version"));
-
 		System.out.println("Hi! I am Java " + System.getProperty("java.version") + ". What's your name?");
 
 		Scanner in = new Scanner(System.in);
