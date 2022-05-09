@@ -38,12 +38,22 @@ public interface Fibonacci {
 
 	/**
 	 * This method returns the sum of the even Fibonacci numbers up to (and
-	 * including) a given barrier; e.g. if barrier = 8 the result should be 10
+	 * including) a given barrier; e.g. if barrier = 13 the result should be 23
 	 * 
 	 * @param barrier
 	 * @return the sum of the even Fibonacci numbers up to (including) a given
 	 *         barrier
 	 */
 	int fibonacciEvenSum(double barrier);
+
+	/**
+	 * This method returns the sum of the odd Fibonacci numbers up to (and
+	 * including) a given barrier; e.g. if barrier = 13 the result should be 10
+	 * 
+	 * @param barrier
+	 * @return the sum of the even Fibonacci numbers up to (including) a given
+	 *         barrier
+	 */
+	int fibonacciOddSum(double barrier);
 
 }
