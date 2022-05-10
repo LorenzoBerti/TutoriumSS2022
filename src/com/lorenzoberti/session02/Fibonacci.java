@@ -19,7 +19,7 @@ package com.lorenzoberti.session02;
 public interface Fibonacci {
 
 	/**
-	 * This method returns the first "range" Fibonacci numbers; e.g. if a = 4 then
+	 * This method returns the first "range" Fibonacci numbers; e.g. if range = 4 then
 	 * it returns the vector {0 1 1 2}
 	 * 
 	 * @param range
