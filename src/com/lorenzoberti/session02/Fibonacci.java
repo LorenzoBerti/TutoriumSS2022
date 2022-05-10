@@ -10,7 +10,7 @@ package com.lorenzoberti.session02;
  *
  * That is, F_{0}=0, F_{1}=1, F_{n}=F_{n-1}+F_{n-2}, for n larger 1.
  *
- * The beginning of the sequence is thus: 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89,
+ * The beginning of the sequence is thus: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89,
  * 144, ...
  * 
  * @author Lorenzo Berti
