@@ -18,6 +18,13 @@ public class ExceptionExperiment {
 
 		}
 
+		/**
+		 * This method computes the approximation of PI by using Monte Carlo
+		 * Integration.
+		 * 
+		 * @param numberOfDrawings
+		 * @return
+		 */
 		private static double piMonteCarlo(int numberOfDrawings) {
 
 			double numberOfPointsInside = 0;
