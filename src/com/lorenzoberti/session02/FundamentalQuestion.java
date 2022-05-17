@@ -26,7 +26,7 @@ public class FundamentalQuestion {
 			boolean word;
 			
 			do {
-				word = answer.equals("");
+				word = answer.equals("42");
 				
 				if(word) {
 					System.out.println("Great! You are a man of culture ;-)");
