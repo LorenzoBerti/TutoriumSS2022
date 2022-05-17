@@ -26,7 +26,7 @@ public class FundamentalQuestion {
 			boolean word;
 			
 			do {
-				word = answer.equals("42");
+				word = answer.equals("42"); // "transform" the input in a boolean
 				
 				if(word) {
 					System.out.println("Great! You are a man of culture ;-)");
@@ -42,7 +42,7 @@ public class FundamentalQuestion {
 			
 				while (word == false);
 
-			in.close();
+				in.close();
 				
 		}
 
