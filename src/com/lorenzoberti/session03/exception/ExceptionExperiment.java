@@ -49,12 +49,6 @@ public class ExceptionExperiment {
 //				throw new Exception("Error: the numberOfDrawings cannot be zero!");
 //			}
 
-			if (numberOfDrawings == 0) {
-				throw new DivideByZeroException();
-
-
-			}
-
 			double numberOfPointsInside = 0;
 
 			for (int i = 0; i < numberOfDrawings; i++) {
