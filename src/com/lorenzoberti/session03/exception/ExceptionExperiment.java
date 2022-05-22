@@ -9,11 +9,27 @@ package com.lorenzoberti.session03.exception;
  */
 public class ExceptionExperiment {
 	
+	static int numberOfDrawings = 10000;
+
+	static int simulation = 5;
 
 	/**
 	 * @param args
+	 * @throws Exception
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
+
+		int number = numberOfDrawings;
+
+		for (int i = 0; i < simulation; i++) {
+
+			number = number / 10;
+			double approximationOfPi = piMonteCarlo(number);
+			System.out.println(
+					"Approximation: " + approximationOfPi + "\t Error: " + Math.abs(approximationOfPi - Math.PI));
+
+		}
+
 
 
 		}
@@ -24,8 +40,20 @@ public class ExceptionExperiment {
 		 * 
 		 * @param numberOfDrawings
 		 * @return
+		 * @throws Exception
 		 */
-		private static double piMonteCarlo(int numberOfDrawings) {
+
+		private static double piMonteCarlo(int numberOfDrawings) throws Exception {
+
+//			if (numberOfDrawings == 0) {
+//				throw new Exception("Error: the numberOfDrawings cannot be zero!");
+//			}
+
+			if (numberOfDrawings == 0) {
+				throw new DivideByZeroException();
+
+
+			}
 
 			double numberOfPointsInside = 0;
 
@@ -37,11 +65,26 @@ public class ExceptionExperiment {
 				}
 			}
 
-			double multiplier = numberOfPointsInside / numberOfDrawings;
-			double pi = 4.0 * multiplier;
+			double pi = 0;
+
+			try {
+
+				double multiplier = Division.division(numberOfPointsInside, numberOfDrawings);
+				pi = 4.0 * multiplier;
+
+			} catch (DivideByZeroException e) {
+
+				e.printExceptionMessage();
+			}
+
+//			double multiplier = numberOfPointsInside / numberOfDrawings;
+//			double pi = 4.0 * multiplier;
+
+//			if (Double.isNaN(pi)) {
+//				throw new Exception("Error: the result is NaN. Something went wrong!");
+//			}
 
 			return pi;
-
 
 		}
 

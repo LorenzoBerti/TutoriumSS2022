@@ -19,11 +19,11 @@ public class FibonacciTest {
 	public static void main(String[] args) {
 
 		// replace the following line with the constructor of your class
-		Fibonacci fibonacci = 0;
+		Fibonacci fibonacci = new FibonacciSolution();
 
 		int range = 8;
 		// use the method fibonacciNumbers(range)
-		int[] fibonacciNumbers;
+		int[] fibonacciNumbers = fibonacci.fibonacciNumbers(range);
 
 		System.out.println("The first " + range + " Fibonacci numbers are " + Arrays.toString(fibonacciNumbers));
 
@@ -31,7 +31,7 @@ public class FibonacciTest {
 
 		// use the method fibonacciSum(barrier); for barrier = 13 the result should be
 		// 33
-		int sum;
+		int sum = fibonacci.fibonacciSum(barrier);
 
 		System.out.println("The sum of the Fibonacci numbers up to " + barrier + " is " + sum);
 
@@ -39,14 +39,14 @@ public class FibonacciTest {
 
 		// use the method fibonacciEvenSum(barrier); for barrier = 13 the result should
 		// be 23
-		int sumEven;
+		int sumEven = fibonacci.fibonacciEvenSum(barrier);
 		System.out.println("The sum of the even Fibonacci numbers up to " + barrier + " is " + sumEven);
 
 		System.out.println();
 
 		// use the method fibonacciEvenSum(barrier); for barrier = 13 the result should
 		// be 10
-		int sumOdd;
+		int sumOdd = fibonacci.fibonacciOddSum(barrier);
 		System.out.println("The sum of the odd Fibonacci numbers up to " + barrier + " is " + sumOdd);
 
 	}
