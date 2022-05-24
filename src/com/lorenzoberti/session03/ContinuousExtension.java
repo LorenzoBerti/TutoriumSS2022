@@ -6,6 +6,9 @@ package com.lorenzoberti.session03;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import com.lorenzoberti.session03.exception.DivideByZeroException;
+import com.lorenzoberti.session03.exception.Division;
+
 /**
  * @author Lorenzo Berti
  *
@@ -14,8 +17,9 @@ public class ContinuousExtension {
 
 	/**
 	 * @param args
+	 * @throws DivideByZeroException
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws DivideByZeroException {
 
 		double x1 = 1.0;
 		double x2 = Math.PI;
@@ -30,29 +34,47 @@ public class ContinuousExtension {
 	}
 
 	/**
-	 * Calculates the value the function sin(x)/((x+pi)(x-pi)), i.e. extend it
-	 * continuously using the try/catch block.
+	 * Calculates the value the function sin(x)/((x+pi)(x-pi)).
 	 *
 	 * @param argument at which to evaluate.
 	 * @return The value of the function.
+	 * @throws DivideByZeroException
 	 */
-	public static double evaluateFunction(double argument) {
+	public static double evaluateFunction(double argument) throws DivideByZeroException {
 
-		return 0;
+		double numerator = Math.sin(argument);
+		double denominator = (argument + Math.PI) * (argument - Math.PI);
+
+		try {
+			// return checkedDivision(numerator, denominator);
+			return Division.division(numerator, denominator);
+		} catch (ArithmeticException e) {
+			// catch (DivideByZeroException e) {
+			if (argument == Math.PI) {
+				return -0.5 / Math.PI;
+			}
+			if (argument == -Math.PI) {
+				return 0.5 / Math.PI;
+			}
+			throw new RuntimeException(e);
+		}
 
 	}
 
 	/**
 	 * Calculates the division of the numerator by the denominator and checks that
-	 * the result is a regular number (here you can use here the if statement).
+	 * the result is a regular number.
 	 *
 	 * @param numerator
 	 * @param denominator
 	 * @return The fraction.
 	 */
 	private static double checkedDivision(double numerator, double denominator) {
-
-		return 0;
+		double answer = numerator / denominator;
+		if (!Double.isFinite(answer)) {
+			throw new ArithmeticException(
+					"Not a mathematically sound division ( " + numerator + " / " + denominator + " ).");
+		}
+		return answer;
 	}
-
 }
