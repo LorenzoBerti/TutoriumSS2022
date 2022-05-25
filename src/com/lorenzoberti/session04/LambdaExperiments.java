@@ -20,7 +20,7 @@ public class LambdaExperiments {
 		int a = 10;
 		DoubleUnaryOperator nextInteger = (x) -> (x + 1); // Look at the DoubleUnaryOperator javadoc
 		double next = nextInteger.applyAsDouble(a);
-		System.out.println(next);
+		// System.out.println(next);
 
 		// The expression could be also a block of code
 		DoubleUnaryOperator nextOdd = x -> {
@@ -31,7 +31,7 @@ public class LambdaExperiments {
 		};
 
 		double nextOne = nextOdd.applyAsDouble(a);
-		System.out.println(nextOne);
+		// System.out.println(nextOne);
 
 		// Lambda expressions are useful to reduce the code whereby increasing the
 		// readability
@@ -44,21 +44,21 @@ public class LambdaExperiments {
 
 		// Print without using lambda expression:
 		for (int i = 0; i < numbers.size(); i++) {
-			System.out.println(numbers.get(i));
+			// System.out.println(numbers.get(i));
 		}
 
 		// Print using lambda expression
 		numbers.forEach((n) -> {
-			System.out.println(n);
+			// System.out.println(n);
 		});
 
 		// Lambda expression can be stored in variables...
 
 		Consumer<Integer> method = (n) -> {
-			System.out.println(n);
+			// System.out.println(n);
 		};
 		numbers.forEach(method);
-
+//
 		DoubleUnaryOperator operation = x -> {
 			return (Math.exp(x) + 1) / Math.log(x) * Math.sin(x + Math.sqrt(x - 2));
 		};
@@ -68,12 +68,12 @@ public class LambdaExperiments {
 		Consumer<Integer> doubled = (n) -> {
 			GeneralOperation(n, operation);
 		};
-		numbers.forEach(doubled);
+		// numbers.forEach(doubled);
 
 		// Lambda expression can be a parameter of methods
 
 		GeneralOperation(a, operation);
-
+//
 	}
 
 	/**

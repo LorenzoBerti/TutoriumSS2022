@@ -43,13 +43,11 @@ public class ContinuousExtension {
 	public static double evaluateFunction(double argument) throws DivideByZeroException {
 
 		double numerator = Math.sin(argument);
-		double denominator = (argument + Math.PI) * (argument - Math.PI);
-
+		double denominator = (argument - Math.PI) * (argument * Math.PI);
 		try {
 			// return checkedDivision(numerator, denominator);
 			return Division.division(numerator, denominator);
-		} catch (ArithmeticException e) {
-			// catch (DivideByZeroException e) {
+		} catch (DivideByZeroException e) {
 			if (argument == Math.PI) {
 				return -0.5 / Math.PI;
 			}
@@ -57,7 +55,9 @@ public class ContinuousExtension {
 				return 0.5 / Math.PI;
 			}
 			throw new RuntimeException(e);
+
 		}
+
 
 	}
 
@@ -72,8 +72,7 @@ public class ContinuousExtension {
 	private static double checkedDivision(double numerator, double denominator) {
 		double answer = numerator / denominator;
 		if (!Double.isFinite(answer)) {
-			throw new ArithmeticException(
-					"Not a mathematically sound division ( " + numerator + " / " + denominator + " ).");
+			throw new ArithmeticException("Not a mathematical division");
 		}
 		return answer;
 	}

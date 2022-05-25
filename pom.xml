@@ -21,6 +21,16 @@
   		<artifactId>finmath-lib</artifactId>
   		<version>6.0.0</version>
   	</dependency>
+<dependency>
+			<groupId>com.andreamazzon</groupId>
+			<artifactId>javacourse-2022</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+<dependency>
+			<groupId>com.andreamazzon</groupId>
+  <artifactId>numerical-methods-exercises-2022</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+		</dependency>
   	<dependency>
   		<groupId>net.finmath</groupId>
   		<artifactId>finmath-experiments</artifactId>

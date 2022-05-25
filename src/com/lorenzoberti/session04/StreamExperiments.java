@@ -31,28 +31,42 @@ public class StreamExperiments {
 
 		// Using the method generate() we have to give also a limit, othertwise it
 		// creates an "infinite" dimension stream (try to println without limit)
-		Stream<String> streamGenerated = Stream.generate(() -> "element").limit(10);
-		System.out.println(Arrays.toString(streamGenerated.toArray()));
+		Stream<String> streamGenerated = Stream.generate(() -> "element");
+		// System.out.println(Arrays.toString(streamGenerated.toArray()));
 
 		// Using the method iterate() we create an infinite stream starting from a
 		// value and creating all the following elements performing some operation
 		Stream<Integer> streamIterate = Stream.iterate(10, n -> n + 1).limit(10);
 		System.out.println(Arrays.toString(streamIterate.toArray()));
 
+		System.out.println("------------------------------------------------");
+
 		// For the primitive types int, long and double we have the interfaces
 		// IntStream, LongStream and DoubleStream
 		IntStream streamInt = IntStream.range(0, 10); // a way to create a stream of int
 		System.out.println(Arrays.toString(streamInt.toArray()));
+
+		System.out.println("------------------------------------------------");
+
 		DoubleStream streamDouble = DoubleStream.generate(() -> Math.random()).limit(10); // stream of uniform random
 																							// numbers
 		System.out.println(Arrays.toString(streamDouble.toArray()));
+
+		System.out.println("------------------------------------------------");
 
 		// We can use also a Supplier to create a stream (from an existing Stream)
 		// The supplier allows us to "reuse" our stream
 		Stream<Double> streamDouble2 = Stream.generate(() -> Math.random()).limit(10);
 		Supplier<Stream<Double>> streamSupplier = () -> streamDouble2;
+
 		Stream<Double> randomStream = streamSupplier.get();
 		System.out.println(randomStream.collect(Collectors.toList()));
+
+		System.out.println("------------------------------------------------");
+
+//		Stream<Double> randomStream1 = streamSupplier.get();
+//		System.out.println(randomStream1.collect(Collectors.toList()));
+
 		// Note: you cannot use the DoubleStream interface in this case
 		// DoubleStream randomStream = streamSupplier.get();
 
@@ -67,7 +81,7 @@ public class StreamExperiments {
 		enterprise.add(new Crew("Sulu", "Lieutenant"));
 
 		// A list can be "streammed" with the method stream()
-		// Stream<Crew> streamEnterprise = enterprise.stream();
+		Stream<Crew> streamEnterprise = enterprise.stream();
 
 		// Use the Supplier to create the stream
 		Supplier<Stream<Crew>> enterpriseSupplier = () -> enterprise.stream();
@@ -87,6 +101,8 @@ public class StreamExperiments {
 				.map(member -> new Crew(member.getName(), "Commander Lieutenant"))
 				.forEach(member -> System.out.println(member.getName() + "\t" + member.getRole()));
 
+		System.out.println("------------------------------------------------");
+
 		// But we lost the others!!
 		Stream<Crew> enterprise3 = enterpriseSupplier.get();
 		enterprise3.map(member -> {
@@ -97,6 +113,8 @@ public class StreamExperiments {
 				return new Crew(member.getName(), role);
 		}).collect(Collectors.toList())
 				.forEach(member -> System.out.println(member.getName() + "\t" + member.getRole()));
+
+		System.out.println("------------------------------------------------");
 
 		// Note the peek method: it is an intermediary operation (i.e. it returns a
 		// stream)
@@ -109,13 +127,24 @@ public class StreamExperiments {
 				return new Crew(member.getName(), role);
 		}).peek(member -> System.out.println(member.getName() + "\t" + member.getRole())).collect(Collectors.toList());
 
+
+		System.out.println("------------------------------------------------");
+
 		Stream<Crew> enterprise5 = enterpriseSupplier.get();
 		Crew crew = enterprise5.filter(member -> member.getRole() == "Lieutenant").findFirst().orElse(null);
 		System.out.println(crew.getName());
 
+		System.out.println("------------------------------------------------");
+
 		Stream<Crew> enterprise6 = enterpriseSupplier.get();
 		long numbers = enterprise6.filter(member -> member.getRole() == "Lieutenant").count();
 		System.out.println(numbers);
+
+		System.out.println("------------------------------------------------");
+
+		Supplier<Crew> generalMember = () -> new Crew("Name", "Role");
+		Stream.generate(() -> generalMember.get()).limit(10)
+				.forEach(n -> System.out.println(n.getName() + "\t" + n.getRole()));
 
 	}
 

@@ -1,5 +1,9 @@
 package com.lorenzoberti.session03;
 
+/**
+ * @author Lorenzo Berti
+ *
+ */
 public class CaesarCipher implements Cipher {
 
 	private int shift;
@@ -67,5 +71,4 @@ public class CaesarCipher implements Cipher {
 	private static boolean isLetter(char character) {
 		return (character >= 'a' && character <= 'z');
 	}
-
 }
