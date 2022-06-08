@@ -30,4 +30,9 @@ public class Crew {
 	public void setRole(String role) {
 		this.role = role;
 	}
+
+	@Override
+	public String toString() {
+		return name + "(" + role + ")";
+	}
 }

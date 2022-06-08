@@ -31,9 +31,9 @@ public class CollectionDemo {
 
 		// Collection just contains objects, i.e. references. What you get from a
 		// Collection is iteration: Collection is iterable
-		Collection<Double> collectionInteger = null;
+		Collection<Double> collectionDouble = null;
 
-//		for (double i : collectionInteger) {
+//		for (double i : collectionDouble) {
 //			// do something
 //		}
 
@@ -61,8 +61,8 @@ public class CollectionDemo {
 
 		// Let's see more in deep List
 
-		// iImmutable list: once it is created it can never be changed
-		List<Integer> intList = List.of(1, 2, 3, 4);
+		// Immutable list: once it is created it can never be changed
+		List<Integer> intList = List.of(1, 2, 3);
 		// intList.add(1); // It complains!
 
 		double d = 1;
@@ -70,7 +70,7 @@ public class CollectionDemo {
 		List<Double> doubleList = List.of(d, D, Double.valueOf(3), 4.0);
 		// here Java is creating a Double with the value 1, indeed if you take it you
 		// see that is a Reference type
-		// System.out.println(doubleList.get(0).getClass());
+		System.out.println(doubleList.get(0).getClass());
 
 		// We can be even more specific
 
@@ -83,7 +83,6 @@ public class CollectionDemo {
 		// that extends Double
 		List<Double> arrayList2 = new ArrayList<>(doubleList); // Now it is going to be modifiable: 100% control on the
 																// list
-
 		// Note the difference
 		int a = 10;
 		// arrayList2.add(a); // it complains because we have a list of Double and we
@@ -93,9 +92,9 @@ public class CollectionDemo {
 		rawList.add(a); // It does not complain!
 		// This is because of generic (we don't specify the type), but if you use a list
 		// you want objects of the same type so be careful with generic
-		// System.out.println(rawList.get(4).getClass());
+		System.out.println(rawList.get(4).getClass());
 
-		// System.out.println("---------------------------------");
+		System.out.println("---------------------------------");
 
 		// Let's see Set
 		Set<Crew> enterpriseSet1 = new HashSet<Crew>();
@@ -116,35 +115,35 @@ public class CollectionDemo {
 		enterpriseSet1.addAll(enterprise1);
 
 		// Note that if I add another kirk it will not be stored
-//		enterpriseSet1.add(kirk);
-//		enterpriseSet1.forEach(n -> System.out.println(n.getName()));
-//		System.out.println("---------------------------------");
+		enterpriseSet1.add(kirk);
+		enterpriseSet1.forEach(n -> System.out.println(n.getName()));
+		System.out.println("---------------------------------");
 
 		Set enterpriseSet2 = Set.of(kirk, spock, uhura, sulu); // Note: in this case it is immutable
 
 		// Union
 		Set<Crew> bigEnterprise = new HashSet<Crew>(enterpriseSet1);
 		bigEnterprise.addAll(enterpriseSet2);
-//		System.out.print("Union of the two starships:\n");
-//		System.out.println(bigEnterprise);
-//
-//		System.out.println("---------------------------------");
+		System.out.print("Union of the two starships:\n");
+		System.out.println(bigEnterprise);
+
+		System.out.println("---------------------------------");
 
 		// Intersection
 		Set<Crew> smallEnterprise = new HashSet<Crew>(enterpriseSet1);
 		smallEnterprise.retainAll(enterpriseSet2);
-//		System.out.print("Intersection of the two starships:\n");
-//		System.out.println(smallEnterprise);
-//
-//		System.out.println("---------------------------------");
+		System.out.print("Intersection of the two starships:\n");
+		System.out.println(smallEnterprise);
+
+		System.out.println("---------------------------------");
 
 		// Difference
 		Set<Crew> differenceEnteprise = new HashSet<Crew>(enterpriseSet1);
 		differenceEnteprise.removeAll(enterpriseSet2);
-//		System.out.print("Difference of the two starships:\n");
-//		System.out.println(differenceEnteprise);
-//
-//		System.out.println("---------------------------------");
+		System.out.print("Difference of the two starships:\n");
+		System.out.println(differenceEnteprise);
+
+		System.out.println("---------------------------------");
 
 		// HashMap<Key,Value>
 		HashMap<String, Integer> hashMap = new HashMap<>();
@@ -152,43 +151,51 @@ public class CollectionDemo {
 		// Adding elements to the Map using put() method
 		hashMap.put("Lorenzo", 25);
 		hashMap.put("Andrea", 30);
-		// someone else
+		hashMap.put("Qiqi", 25);
 
 		// Size of the Map
-		// System.out.println("Size of map is: " + hashMap.size());
+		System.out.println("Size of map is: " + hashMap.size());
 
 		// Print elements in object of Map
-		// System.out.println(hashMap);
+		System.out.println(hashMap);
 
 		// Check if a key is present and in case print the value
 		if (hashMap.containsKey("Lorenzo")) {
 
-			// Extract the valuegiving the key
+			// Extract the value giving the key
 			Integer age = hashMap.get("Lorenzo");
 			// Print value of the corresponding key
-			// System.out.println("Value for key" + " \"Lorenzo\" is: " + age);
+			System.out.println("Value for key" + " \"Lorenzo\" is: " + age);
 		}
 
 		// Change an element. Note that a HashMap cannot have two identical keys
 		hashMap.put("Lorenzo", 26);
-		// System.out.println(hashMap);
+		System.out.println(hashMap);
+
+		System.out.println("-------------------------------------");
 
 		// Since it is a Collection it is iterable
 		for (String i : hashMap.keySet()) {
-			// System.out.println(i);
+			System.out.println(i);
 		}
+
+		System.out.println("-------------------------------------");
 
 		for (Integer i : hashMap.values()) {
-			// System.out.println(i);
+			System.out.println(i);
 		}
 
+		System.out.println("-------------------------------------");
+
 		for (String i : hashMap.keySet()) {
-			// System.out.println("Key: " + i + "\tValue: " + hashMap.get(i));
+			System.out.println("Key: " + i + "\tValue: " + hashMap.get(i));
 		}
+
+		System.out.println("-------------------------------------");
 
 		// Iterate through the pairs
 		for (Map.Entry<String, Integer> e : hashMap.entrySet()) {
-			// System.out.println("Key: " + e.getKey() + "\tValue: " + e.getValue());
+			System.out.println("Key: " + e.getKey() + "\tValue: " + e.getValue());
 		}
 
 
