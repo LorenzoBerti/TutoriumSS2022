@@ -151,7 +151,6 @@ public class CollectionDemo {
 		// Adding elements to the Map using put() method
 		hashMap.put("Lorenzo", 25);
 		hashMap.put("Andrea", 30);
-		hashMap.put("Qiqi", 25);
 
 		// Size of the Map
 		System.out.println("Size of map is: " + hashMap.size());

@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 public class CollectionTest {
 
-	// Write the path of the file in File("path of the file",
+	// Write the path of the file in File("path_of_the_file",
 	// "name_of_the_file.csv")
 	private static File file = new File("/home/lorenzo/git/TutoriumSS2022/src/com/lorenzoberti/session06",
 			"guestlist.csv");
