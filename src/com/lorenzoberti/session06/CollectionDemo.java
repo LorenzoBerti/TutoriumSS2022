@@ -14,6 +14,8 @@ import java.util.Set;
 import com.lorenzoberti.session04.Crew;
 
 /**
+ * Collection experiments
+ * 
  * @author Lorenzo Berti
  *
  */
