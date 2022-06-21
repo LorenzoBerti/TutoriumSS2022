@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -15,6 +17,8 @@ import java.util.Set;
  *
  */
 public class GuestList implements HotelGuest {
+
+	private final Map<Integer, String> guestList = new HashMap<Integer, String>();
 
 
 	/**
@@ -26,47 +30,54 @@ public class GuestList implements HotelGuest {
 	 */
 	public static HotelGuest getListFromCSV(File csv) throws IOException {
 
-		// TODO
+		GuestList guests = new GuestList();
 
 		BufferedReader csvReader = new BufferedReader(new FileReader(csv));
 		String row;
 		while ((row = csvReader.readLine()) != null) {
 			String[] data = row.split(",");
-			// TODO You can use this reader. data[0] is room number as String, data[1] is
-			// guest name.
+			guests.guestList.put(Integer.parseInt(data[0]), data[1]);
 		}
 		csvReader.close();
 
-		return null;
+		return guests;
 	}
 
 	@Override
 	public String getGuestName(int roomNumber) {
 		// TODO Auto-generated method stub
-		return null;
+		return guestList.get(roomNumber);
 	}
 
 	@Override
 	public Collection<String> getGuests() {
 		// TODO Auto-generated method stub
-		return null;
+		return guestList.values();
 	}
 
 	@Override
 	public Set<Integer> getOccupiedRooms() {
 		// TODO Auto-generated method stub
-		return null;
+		return guestList.keySet();
 	}
 
 	@Override
 	public void checkout(int roomNumber) {
 		// TODO Auto-generated method stub
+		guestList.remove(roomNumber);
 
 	}
 
 	@Override
 	public void checkin(int roomNumber, String guestName) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
+
+		if (guestList.containsKey(roomNumber)) {
+			throw new IllegalArgumentException(
+					"Cannot checkin to room " + roomNumber + ". The room is already occupied.");
+		}
+
+		guestList.put(roomNumber, guestName);
 
 	}
 

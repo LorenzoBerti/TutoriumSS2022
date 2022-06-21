@@ -29,13 +29,20 @@ public class CollectionTest {
 		HotelGuest guestList = GuestList.getListFromCSV(file);
 
 		for (int room : guestList.getOccupiedRooms()) {
-			System.out.println("Room: " + room + "\tName: " + guestList.getGuestName(room));
+			// System.out.println("Room: " + room + "\tName: " +
+			// guestList.getGuestName(room));
 		}
 
+		// guestList.checkin(2047, "Lorenzo Berti");
+		guestList.checkout(2047);
+		guestList.checkin(2047, "Lorenzo Berti");
+		for (int room : guestList.getOccupiedRooms()) {
+			System.out.println("Room: " + room + "\tName: " + guestList.getGuestName(room));
+		}
 		System.out.println("------------------------");
 
 		RandomToList random = new RandomToList();
-		random.getList(seed, size).forEach(i -> System.out.println(i));
+		// random.getList(seed, size).forEach(i -> System.out.println(i));
 
 	}
 
