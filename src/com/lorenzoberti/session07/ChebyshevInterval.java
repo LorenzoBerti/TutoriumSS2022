@@ -4,6 +4,9 @@
 package com.lorenzoberti.session07;
 
 /**
+ * This class has a method that computes the confidence interval by using
+ * Chebyshev's inequality for the sample mean of a random variable.
+ * 
  * @author Lorenzo Berti
  *
  */

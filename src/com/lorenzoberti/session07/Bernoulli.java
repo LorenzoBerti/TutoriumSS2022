@@ -6,6 +6,9 @@ package com.lorenzoberti.session07;
 import net.finmath.randomnumbers.RandomNumberGenerator1D;
 
 /**
+ * Bernoulli random variable: discrete random variable X that takes only values
+ * 0 and 1; X = 1 with probability p, X = 1 with probability 1-p
+ * 
  * @author Lorenzo Berti
  *
  */
