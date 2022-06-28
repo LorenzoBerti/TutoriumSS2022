@@ -3,7 +3,12 @@
  */
 package com.lorenzoberti.session07;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import net.finmath.randomnumbers.RandomNumberGenerator1D;
 
@@ -87,13 +92,86 @@ public abstract class AbstractRandomVariable implements RandomVariable {
 
 	public double getSampleMeanParallel(int numberOfSimulations) throws InterruptedException, ExecutionException {
 
-		return 0;
+		int numberOfTask = 100;
+		int numberOfSamplePerTask = numberOfSimulations / numberOfTask;
+
+		int numberOfThreads = Runtime.getRuntime().availableProcessors();
+		ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
+
+		double sampleMean = 0;
+		try {
+			List<Future<Double>> results = new ArrayList<>();
+			for (int taskIndex = 0; taskIndex < numberOfTask; taskIndex++) {
+
+				int startIndex = taskIndex * numberOfSamplePerTask;
+				Future<Double> value = executor.submit(() -> getValue(startIndex, numberOfSamplePerTask));
+				results.add(value);
+			}
+
+			double sum = 0.0;
+			for (int taskIndex = 0; taskIndex < numberOfTask; taskIndex++) {
+				sum += results.get(taskIndex).get();
+			}
+			sampleMean = sum / numberOfTask;
+
+		} finally {
+			executor.shutdown();
+		}
+
+		return sampleMean;
 	}
 
 	public double getSampleMeanParallel(int numberOfSimulations, RandomNumberGenerator1D random)
 			throws InterruptedException, ExecutionException {
 
-		return 0;
+		int numberOfTask = 100;
+		int numberOfSamplePerTask = numberOfSimulations / numberOfTask;
+
+		int numberOfThreads = Runtime.getRuntime().availableProcessors();
+		ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
+
+		double sampleMean = 0;
+		try {
+			List<Future<Double>> results = new ArrayList<>();
+			for (int taskIndex = 0; taskIndex < numberOfTask; taskIndex++) {
+
+				int startIndex = taskIndex * numberOfSamplePerTask;
+				Future<Double> value = executor.submit(() -> getValue(startIndex, numberOfSamplePerTask, random));
+				results.add(value);
+			}
+
+			double sum = 0.0;
+			for (int taskIndex = 0; taskIndex < numberOfTask; taskIndex++) {
+				sum += results.get(taskIndex).get();
+			}
+			sampleMean = sum / numberOfTask;
+
+		} finally {
+			executor.shutdown();
+		}
+
+		return sampleMean;
+		
+	}
+
+	private double getValue(int startIndex, int numberOfSamplePerTask) {
+
+		double sum = 0.0;
+		for (int i = startIndex; i < startIndex + numberOfSamplePerTask; i++) {
+			sum += generate();
+		}
+		double value = sum / numberOfSamplePerTask;
+		return value;
+	}
+
+	private double getValue(int startIndex, int numberOfSamplePerTask, RandomNumberGenerator1D random) {
+
+		double sum = 0.0;
+		for (int i = startIndex; i < startIndex + numberOfSamplePerTask; i++) {
+			sum += generate(random);
+		}
+		double value = sum / numberOfSamplePerTask;
+		return value;
 	}
 
 

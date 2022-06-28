@@ -33,7 +33,7 @@ public class PoissonTest {
 
 		double lambda = 0.5;
 
-		RandomVariable poisson = null;
+		RandomVariable poisson = new Poisson(lambda);
 		double mean = poisson.getAnalyticMean();
 		double variance = poisson.getAnalyticVariance();
 
@@ -105,6 +105,7 @@ public class PoissonTest {
 				+ Math.abs(density3 - Math.exp(-lambda) * lambda * lambda * lambda / 6));
 		System.out.println(
 				"CDF in 3......: " + cdf3 + "\tError: " + Math.abs(cdf3 - density1 - density2 - density0 - density3));
+
 
 	}
 

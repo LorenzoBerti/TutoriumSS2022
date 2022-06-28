@@ -68,7 +68,7 @@ public class ConfidenceIntervalTest {
 		System.out.println("Confidence Interval Chebyshev: " + Arrays.toString(intervalChebyshev));
 		System.out.println("Confidence Interval Hoeffding: " + Arrays.toString(intervalHoeffding));
 
-		int numberOfMeanComputations = 100;
+		int numberOfMeanComputations = 10;
 
 		System.out.println("_".repeat(80) + "\n");
 

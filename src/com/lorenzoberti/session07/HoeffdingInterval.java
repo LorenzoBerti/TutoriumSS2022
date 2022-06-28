@@ -15,10 +15,20 @@ package com.lorenzoberti.session07;
  */
 public class HoeffdingInterval implements ConfidenceInterval {
 
+	RandomVariable randomVariable;
+
+	public HoeffdingInterval(RandomVariable randomVariable) {
+		super();
+		this.randomVariable = randomVariable;
+	}
+
 	@Override
 	public double[] getConfidenceInterval(int numberOfSimulations, double level) {
 		// TODO Auto-generated method stub
-		return null;
+		double mean = randomVariable.getAnalyticMean();
+		double lowerBound = mean - Math.sqrt(-Math.log(level) / (2 * numberOfSimulations));
+		double upperBound = mean + Math.sqrt(-Math.log(level) / (2 * numberOfSimulations));
+		return new double[] { lowerBound, upperBound };
 	}
 
 }
