@@ -1,16 +1,6 @@
-/**
- * 
- */
 package com.lorenzoberti.session07;
 
 import net.finmath.randomnumbers.RandomNumberGenerator1D;
-
-/**
- * This interface represents a general random variable.
- * 
- * @author Lorenzo Berti
- *
- */
 
 public interface RandomVariable {
 
@@ -32,21 +22,21 @@ public interface RandomVariable {
 
 	/**
 	 * It generates a realization of a random variable with given distribution by a
-	 * general double x.
+	 * double x.
 	 * 
 	 * @return a realization of the random variable
 	 */
 	double generate(double x);
 
 	/**
-	 * It returns the analytic mean of the random variable.
+	 * It returns the analytic mean (if known) of the random variable.
 	 * 
 	 * @return the mean of the random variable
 	 */
 	double getAnalyticMean();
 
 	/**
-	 * It returns the analytic variance of the random variable.
+	 * It returns the analytic variance (if known) of the random variable.
 	 * 
 	 * @return the variance of the random variable
 	 */
@@ -125,5 +115,14 @@ public interface RandomVariable {
 	 * @return the density function evaluated at x
 	 */
 	double getDensityFunction(double x);
+
+	/**
+	 * It return the inverse of the cdf of evaluated at x; i.e. the quantile
+	 * function evaluate at x.
+	 * 
+	 * @param x
+	 * @return the inverse of the cdf evaluated at x
+	 */
+	double getInverse(double x);
 
 }

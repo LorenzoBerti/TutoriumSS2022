@@ -78,17 +78,17 @@ public class PoissonTest {
 
 		System.out.println("Variance");
 		System.out.println("Math Random......: " + formatterValue.format(sampleVarianceRandom) + "\tError: "
-				+ formatterValue.format(Math.abs(sampleVarianceRandom - mean)));
+				+ formatterValue.format(Math.abs(sampleVarianceRandom - variance)));
 		System.out.println("Mersenne.........: " + formatterValue.format(sampleVarianceMersenne) + "\tError: "
-				+ formatterValue.format(Math.abs(sampleVarianceMersenne - mean)));
+				+ formatterValue.format(Math.abs(sampleVarianceMersenne - variance)));
 		System.out.println("Van Der Corput2..: " + formatterValue.format(sampleVarianceCorput2) + "\tError: "
-				+ formatterValue.format(Math.abs(sampleVarianceCorput2 - mean)));
+				+ formatterValue.format(Math.abs(sampleVarianceCorput2 - variance)));
 		System.out.println("Van Der Corput3..: " + formatterValue.format(sampleVarianceCorput3) + "\tError: "
-				+ formatterValue.format(Math.abs(sampleVarianceCorput3 - mean)));
+				+ formatterValue.format(Math.abs(sampleVarianceCorput3 - variance)));
 		System.out.println("Sobolev..........: " + formatterValue.format(sampleVarianceSobolev) + "\tError: "
-				+ formatterValue.format(Math.abs(sampleVarianceSobolev - mean)));
+				+ formatterValue.format(Math.abs(sampleVarianceSobolev - variance)));
 		System.out.println("Equidistributed..: " + formatterValue.format(sampleVarianceEquidistributed) + "\tError: "
-				+ formatterValue.format(Math.abs(sampleVarianceEquidistributed - mean)));
+				+ formatterValue.format(Math.abs(sampleVarianceEquidistributed - variance)));
 
 		System.out.println("---------------------------------------");
 

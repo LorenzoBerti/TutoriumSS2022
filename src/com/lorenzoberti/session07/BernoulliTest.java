@@ -5,15 +5,16 @@ package com.lorenzoberti.session07;
 
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
+import java.util.function.DoubleUnaryOperator;
 
+import net.finmath.plots.Plot2D;
 import net.finmath.randomnumbers.MersenneTwister;
 import net.finmath.randomnumbers.RandomNumberGenerator1D;
 import net.finmath.randomnumbers.SobolSequence1D;
 import net.finmath.randomnumbers.VanDerCorputSequence;
 
 /**
- * Use this class to test your implementation of the Bernoulli distribution.
- * 
  * @author Lorenzo Berti
  *
  */
@@ -24,12 +25,14 @@ public class BernoulliTest {
 	static DecimalFormat formatterPercentage = new DecimalFormat("#0.00%");
 
 	static double level = 0.05; // Confidence level 95%
-	static int numberOfSimulations = 100000;
+	static int numberOfSimulations = 1000000; // 10^8
 
 	/**
 	 * @param args
+	 * @throws ExecutionException
+	 * @throws InterruptedException
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException, ExecutionException {
 
 		double p = 0.3;
 
@@ -78,17 +81,17 @@ public class BernoulliTest {
 
 		System.out.println("Variance");
 		System.out.println("Math Random......: " + formatterValue.format(sampleVarianceRandom) + "\tError: "
-				+ formatterValue.format(Math.abs(sampleVarianceRandom - mean)));
+				+ formatterValue.format(Math.abs(sampleVarianceRandom - variance)));
 		System.out.println("Mersenne.........: " + formatterValue.format(sampleVarianceMersenne) + "\tError: "
-				+ formatterValue.format(Math.abs(sampleVarianceMersenne - mean)));
+				+ formatterValue.format(Math.abs(sampleVarianceMersenne - variance)));
 		System.out.println("Van Der Corput2..: " + formatterValue.format(sampleVarianceCorput2) + "\tError: "
-				+ formatterValue.format(Math.abs(sampleVarianceCorput2 - mean)));
+				+ formatterValue.format(Math.abs(sampleVarianceCorput2 - variance)));
 		System.out.println("Van Der Corput3..: " + formatterValue.format(sampleVarianceCorput3) + "\tError: "
-				+ formatterValue.format(Math.abs(sampleVarianceCorput3 - mean)));
+				+ formatterValue.format(Math.abs(sampleVarianceCorput3 - variance)));
 		System.out.println("Sobolev..........: " + formatterValue.format(sampleVarianceSobolev) + "\tError: "
-				+ formatterValue.format(Math.abs(sampleVarianceSobolev - mean)));
+				+ formatterValue.format(Math.abs(sampleVarianceSobolev - variance)));
 		System.out.println("Equidistributed..: " + formatterValue.format(sampleVarianceEquidistributed) + "\tError: "
-				+ formatterValue.format(Math.abs(sampleVarianceEquidistributed - mean)));
+				+ formatterValue.format(Math.abs(sampleVarianceEquidistributed - variance)));
 
 		System.out.println("---------------------------------------");
 
@@ -98,7 +101,58 @@ public class BernoulliTest {
 		System.out.println("X = 0 with probability: " + probability0);
 		System.out.println("X = 1 with probability: " + probability1);
 
+		System.out.println("---------------------------------------");
+		long timeStart, timeEnd;
 
+		timeStart = System.currentTimeMillis();
+		double sampleMeanParallelMathRandom = bernoulli.getSampleMeanParallel(numberOfSimulations);
+		timeEnd = System.currentTimeMillis();
+		System.out.println("Sample mean in parallel Math Random.......: " + sampleMeanParallelMathRandom + " \t("
+				+ (timeEnd - timeStart) / 1000.0 + " sec.) \tError: " + Math.abs(sampleMeanParallelMathRandom - mean));
+
+		timeStart = System.currentTimeMillis();
+		double sampleMeanParallelMersenne = bernoulli.getSampleMeanParallel(numberOfSimulations, mersenne);
+		timeEnd = System.currentTimeMillis();
+		System.out.println("Sample mean in parallel Mersenne..........: " + sampleMeanParallelMersenne + " \t("
+				+ (timeEnd - timeStart) / 1000.0 + " sec.) \tError: " + Math.abs(sampleMeanParallelMersenne - mean));
+
+		timeStart = System.currentTimeMillis();
+		double sampleMeanParallelVanDerCorput2 = bernoulli.getSampleMeanParallel(numberOfSimulations, vanDerCorput2);
+		timeEnd = System.currentTimeMillis();
+		System.out.println("Sample mean in parallel Van Der Corput2...: " + sampleMeanParallelVanDerCorput2 + " \t("
+				+ (timeEnd - timeStart) / 1000.0 + " sec.) \tError: "
+				+ Math.abs(sampleMeanParallelVanDerCorput2 - mean));
+
+		timeStart = System.currentTimeMillis();
+		double sampleMeanParallelVanDerCorput3 = bernoulli.getSampleMeanParallel(numberOfSimulations, vanDerCorput3);
+		timeEnd = System.currentTimeMillis();
+		System.out.println("Sample mean in parallel Van Der Corput3...: " + sampleMeanParallelVanDerCorput3 + " \t("
+				+ (timeEnd - timeStart) / 1000.0 + " sec.) \tError: "
+				+ Math.abs(sampleMeanParallelVanDerCorput3 - mean));
+
+		timeStart = System.currentTimeMillis();
+		double sampleMeanParallelSobolev = bernoulli.getSampleMeanParallel(numberOfSimulations, sobolev);
+		timeEnd = System.currentTimeMillis();
+		System.out.println("Sample mean in parallel Sobolev...........: " + sampleMeanParallelSobolev + " \t("
+				+ (timeEnd - timeStart) / 1000.0 + " sec.) \tError: " + Math.abs(sampleMeanParallelSobolev - mean));
+
+		// Plot the error
+		DoubleUnaryOperator errorMersenne = n -> {
+			try {
+				return Math.abs(bernoulli.getSampleMeanParallel((int) n, mersenne) - mean);
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
+			return 0;
+		};
+
+		int numberOfTimeSteps = 10000;
+		Plot2D plot = new Plot2D(0, numberOfTimeSteps, numberOfTimeSteps + 1, errorMersenne);
+		plot.setTitle("Error Mersenne");
+		plot.setXAxisLabel("NumberOfSimulations");
+		plot.setYAxisLabel("Error");
+		plot.show();
 
 	}
+
 }
