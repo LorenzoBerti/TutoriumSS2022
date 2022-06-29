@@ -132,7 +132,7 @@ public class ParetoTest {
 						new Named<DoubleUnaryOperator>("Shape = 2", density2),
 						new Named<DoubleUnaryOperator>("Shape = 3", density3),
 						new Named<DoubleUnaryOperator>("Shape = 10", density10)));
-		plot2.setTitle("Pareto density");
+		plot2.setTitle("Pareto density with scale = " + scale);
 		plot2.setXAxisLabel("x");
 		plot2.setYAxisLabel("f(x)");
 		plot2.setIsLegendVisible(true);
