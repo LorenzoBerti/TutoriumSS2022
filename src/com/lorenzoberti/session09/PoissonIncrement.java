@@ -12,15 +12,19 @@ import net.finmath.stochastic.RandomVariable;
 import net.finmath.time.TimeDiscretization;
 
 /**
+ * This class represents independent Poisson increments, i.e. X(t)-X(s) follows
+ * a Poisson distribution with intensity \lambda*(t-s).
+ * 
  * @author Lorenzo Berti
  *
  */
 public class PoissonIncrement implements IndependentIncrement {
 
-	private double lambda; // intensity
-	private int numberOfPaths;
+	double lambda;
+	int numberOfPaths;
 	private TimeDiscretization times;
 	private RandomVariable[] increments;
+
 
 	public PoissonIncrement(double lambda, int numberOfPaths, TimeDiscretization times) {
 		super();
@@ -29,27 +33,21 @@ public class PoissonIncrement implements IndependentIncrement {
 		this.times = times;
 	}
 
-	public PoissonIncrement(double lambda, int numberOfPaths) {
-		super();
-		this.lambda = lambda;
-		this.numberOfPaths = numberOfPaths;
-	}
-
 	@Override
 	public RandomVariable getIncrement(double s, double t) {
-		// TODO Auto-generated method stub
+
 		AbstractRandomVariable poisson = new Poisson(lambda * (t - s));
 		double[] values = new double[numberOfPaths];
 		for (int i = 0; i < numberOfPaths; i++) {
 			values[i] = poisson.generate();
 		}
-
 		return new RandomVariableFromDoubleArray(0, values);
+
 	}
 
 	@Override
 	public RandomVariable getIncrement(int timeIndex) {
-		// TODO Auto-generated method stub
+
 		generateIncrements();
 
 		return increments[timeIndex];
@@ -63,7 +61,7 @@ public class PoissonIncrement implements IndependentIncrement {
 
 		double[][] incrementsArray = new double[numberOfTimeSteps][numberOfPaths];
 
-		// Pre-calculate the Poisson Distribution
+		// Pre-calculate Poisson distributions
 		Poisson[] poissonDistribution = new Poisson[numberOfTimeSteps];
 		for (int timeIndex = 0; timeIndex < numberOfTimeSteps; timeIndex++) {
 			poissonDistribution[timeIndex] = new Poisson(times.getTimeStep(timeIndex) * lambda);
@@ -76,7 +74,7 @@ public class PoissonIncrement implements IndependentIncrement {
 				double numberOfJumps = poissonDistribution[timeIndex].generate(uniform);
 
 				incrementsArray[timeIndex][pathIndex] = numberOfJumps;
-			}
+		}
 		}
 
 		increments = new RandomVariable[numberOfTimeSteps];

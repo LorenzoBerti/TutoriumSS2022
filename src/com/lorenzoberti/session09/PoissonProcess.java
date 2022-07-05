@@ -8,15 +8,17 @@ import net.finmath.stochastic.RandomVariable;
 import net.finmath.time.TimeDiscretization;
 
 /**
+ * This class represents a Poisson process.
+ * 
  * @author Lorenzo Berti
  *
  */
 public class PoissonProcess extends AbstractLevyProcess {
 
-	private double lambda; // intensity of the jump process
+	private double lambda;
 	RandomVariable[] poissonProcessPaths;
 
-	public PoissonProcess(double lambda, int numberOfPaths, TimeDiscretization times) {
+	protected PoissonProcess(double lambda, int numberOfPaths, TimeDiscretization times) {
 		super(numberOfPaths, times);
 		this.lambda = lambda;
 	}
@@ -27,13 +29,12 @@ public class PoissonProcess extends AbstractLevyProcess {
 		if (poissonProcessPaths == null) {
 		generate();
 		}
-
 		return poissonProcessPaths;
 	}
 
 	private void generate() {
-		// TODO Auto-generated method stub
-		int numberOfTimes = times.getNumberOfTimes();
+
+		final int numberOfTimes = times.getNumberOfTimes(); // numberOfTimes = numberOfTimeSteps + 1
 
 		IndependentIncrement poissonIncrement = new PoissonIncrement(lambda, numberOfPaths, times);
 

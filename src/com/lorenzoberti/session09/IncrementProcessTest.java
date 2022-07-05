@@ -28,10 +28,10 @@ public class IncrementProcessTest {
 
 		IndependentIncrement poissonIncrement = new PoissonIncrement(lambda, numberOfPaths, times);
 
-		System.out.println("index\t\tPoisson increments");
+		System.out.println("index\t \tPoisson increments");
 		for (int i = 0; i < finalTime; i++) {
 
-			System.out.format("%d\t\t%f\n", i,
+			System.out.format("%d\t\t%f\n", i, 
 					poissonIncrement.getIncrement(i).getAverage());
 		}
 

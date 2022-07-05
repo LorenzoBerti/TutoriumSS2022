@@ -10,6 +10,8 @@ import net.finmath.stochastic.RandomVariable;
 import net.finmath.time.TimeDiscretization;
 
 /**
+ * This abstract class implements the LevyProcess class.
+ * 
  * @author Lorenzo Berti
  *
  */
@@ -40,11 +42,13 @@ public abstract class AbstractLevyProcess implements LevyProcess {
 
 		double[] path = new double[times.getNumberOfTimes() + 1];
 		path[0] = 0;
-		for (int i = 0; i < times.getNumberOfTimes(); i++) {
-			path[i] = getPaths()[i].get(pathIndex);
-		}
-		return path;
+		for (int i = 0; i < times.getNumberOfTimeSteps(); i++) {
 
+			path[i] = getPaths()[i].get(pathIndex);
+
+		}
+
+		return path;
 	}
 
 	@Override
@@ -63,7 +67,7 @@ public abstract class AbstractLevyProcess implements LevyProcess {
 	public void printSpecificPath(int pathIndex) {
 
 		DoubleUnaryOperator trajectory = t -> {
-			return getSpecificRealizationAtGivenTime(pathIndex, (int) t);
+			return getSpecificRealizationAtGivenTimeIndex(pathIndex, (int) t);
 		};
 
 		Plot2D plot = new Plot2D(0, times.getNumberOfTimes(), times.getNumberOfTimes(), trajectory);
