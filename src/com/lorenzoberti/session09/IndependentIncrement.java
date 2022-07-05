@@ -16,7 +16,6 @@ public interface IndependentIncrement {
 	/**
 	 * This method return the Random variable X_t-X_s
 	 * 
-	 * @param numberOfPaths
 	 * @param s
 	 * @param t
 	 * @return random variable X_t-X_s

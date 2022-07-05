@@ -31,8 +31,8 @@ public class CometTest {
 		double x0 = -1;
 		double sigma = 1;
 		LongLivedComet comet = new LongLivedComet(x0, sigma);
-//		double sampleMean = comet.getSampleMeanCometLifetime(numberOfSimulations);
-//		System.out.println("Mean....: " + sampleMean);
+		double sampleMean = comet.getSampleMeanCometLifetime(numberOfSimulations);
+		System.out.println("Mean....: " + sampleMean);
 		double sampleMeanMaxOrbit = comet.getSampleMeanCometLifetime(numberOfSimulations, maxOrbit);
 		System.out.println("Mean............: " + sampleMeanMaxOrbit);
 		double stdDeviationMaxOrbit = comet.getStdDeviationCometLifetime(numberOfSimulations, maxOrbit);

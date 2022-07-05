@@ -39,9 +39,8 @@ public class IncrementProcessTest {
 		AbstractLevyProcess poissonProcess = new PoissonProcess(lambda, numberOfPaths, times);
 		poissonProcess.printSpecificPath(0);
 		for (int i = 0; i < numberOfTimeSteps; i++) {
-			System.out.println(
-					"Between time 0 and " + i + "\tNumber of events: "
-							+ poissonProcess.getSpecificRealizationAtGivenTimeIndex(0, i));
+			System.out.println("Between time 0 and " + i + "\tNumber of events: "
+					+ poissonProcess.getSpecificRealizationAtGivenTimeIndex(0, i));
 		}
 
 	}

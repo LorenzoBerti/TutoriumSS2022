@@ -319,7 +319,7 @@ public class LongLivedComet {
 	}
 
 	/**
-	 * This method returns the histogram of the number comets that lives the solar
+	 * This method returns the histogram of the number comets that live the solar
 	 * system before touching the a given maximum number of orbits.
 	 * 
 	 * @param numberOfBins
@@ -334,7 +334,7 @@ public class LongLivedComet {
 		generateLifeOrbitValues(numberOfSimulations, maxOrbit);
 		double[] arraySample = new double[numberOfSimulations];
 
-		// store the number of orbits completed by the comets
+		// Store the number of orbits completed by the comets
 		for (int i = 0; i < numberOfSimulations; i++) {
 			arraySample[i] = cometSample[i][1];
 		}
