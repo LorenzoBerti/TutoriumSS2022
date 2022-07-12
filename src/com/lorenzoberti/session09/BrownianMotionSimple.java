@@ -16,8 +16,9 @@ import net.finmath.time.TimeDiscretization;
 public class BrownianMotionSimple extends AbstractLevyProcess {
 
 	private RandomVariable[] brownianPaths;
+	private int seed;
 
-	public BrownianMotionSimple(int numberOfPaths, TimeDiscretization times) {
+	public BrownianMotionSimple(int numberOfPaths, TimeDiscretization times, int seed) {
 		super(numberOfPaths, times);
 	}
 
@@ -36,7 +37,7 @@ public class BrownianMotionSimple extends AbstractLevyProcess {
 
 		final int numberOfTimes = times.getNumberOfTimes(); // numberOfTimes = numberOfTimeSteps + 1
 
-		IndependentIncrement brownianIncrement = new BrownianMotionIncrement(numberOfPaths, times);
+		IndependentIncrement brownianIncrement = new BrownianMotionIncrement(numberOfPaths, times, seed);
 
 		brownianPaths = new RandomVariable[numberOfTimes];
 
@@ -44,6 +45,7 @@ public class BrownianMotionSimple extends AbstractLevyProcess {
 
 		for (int i = 0; i < numberOfTimes - 1; i++) {
 
+			// W(t+1) = W(t+1)-W(t) + W(t)
 			brownianPaths[i + 1] = brownianPaths[i].add(brownianIncrement.getIncrement(i));
 		}
 

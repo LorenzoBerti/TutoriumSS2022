@@ -20,13 +20,15 @@ import net.finmath.time.TimeDiscretization;
 public class BrownianMotionIncrement implements IndependentIncrement {
 
 	private int numberOfPaths;
+	private int seed;
 	private TimeDiscretization times;
 	private RandomVariable[] brownianIncrements;
 
-	public BrownianMotionIncrement(int numberOfPaths, TimeDiscretization times) {
+	public BrownianMotionIncrement(int numberOfPaths, TimeDiscretization times, int seed) {
 		super();
 		this.numberOfPaths = numberOfPaths;
 		this.times = times;
+		this.seed = seed;
 	}
 
 	public BrownianMotionIncrement(int numberOfPaths) {
@@ -55,11 +57,11 @@ public class BrownianMotionIncrement implements IndependentIncrement {
 
 	private void generateIncrements() {
 
-		final int numberOfTimeSteps = times.getNumberOfTimeSteps(); // numberOfTimes = numberOfTimeSteps + 1
+		final int numberOfTimeSteps = times.getNumberOfTimeSteps();
 
 		final double[][] brownianIncrementsArray = new double[numberOfTimeSteps][numberOfPaths];
 
-		MersenneTwister mersenne = new MersenneTwister();
+		MersenneTwister mersenne = new MersenneTwister(seed);
 
 		for (int pathIndex = 0; pathIndex < numberOfPaths; pathIndex++) {
 			for (int timeIndex = 0; timeIndex < numberOfTimeSteps; timeIndex++) {

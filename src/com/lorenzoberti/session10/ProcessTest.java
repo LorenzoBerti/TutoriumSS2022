@@ -3,10 +3,14 @@
  */
 package com.lorenzoberti.session10;
 
+import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.function.DoubleUnaryOperator;
 
 import com.lorenzoberti.session09.BrownianMotionSimple;
 
+import net.finmath.plots.Named;
+import net.finmath.plots.Plot2D;
 import net.finmath.stochastic.RandomVariable;
 import net.finmath.time.TimeDiscretization;
 import net.finmath.time.TimeDiscretizationFromArray;
@@ -22,27 +26,27 @@ public class ProcessTest {
 	 */
 	public static void main(String[] args) {
 
-		int numberOfPaths = 10000;
+		int numberOfPaths = 100;
 		int seed = 3003;
 		double initialTime = 0.0;
 		double finalTime = 1.0;
-		double timeStep = 0.1;
+		double timeStep = 0.01;
 		int numberOfTimeSteps = (int) (finalTime / timeStep);
 
 		TimeDiscretization times = new TimeDiscretizationFromArray(initialTime, numberOfTimeSteps, timeStep);
 
 		double mu = 0.1;
 		double sigma = 0.3;
-
 		double initialValue = 100;
-		ProcessSimulator eulerBlackProcess = new EulerBlackScholesProcess(numberOfPaths, times, initialValue, mu, sigma,
-				seed);
+
+		ProcessSimulator eulerBlackProcess = new EulerBlackScholesProcess(numberOfPaths, times, initialValue, seed, mu,
+				sigma);
 		// eulerBlackProcess.printPath(0);
-		ProcessSimulator milsteinBlackProcess = new MilsteinBlackScholesProcess(numberOfPaths, times, initialValue, mu,
-				sigma, seed);
+		ProcessSimulator milsteinBlackProcess = new MilsteinBlackScholesProcess(numberOfPaths, times, initialValue,
+				seed, mu, sigma);
 		// milsteinBlackProcess.printPath(0);
-		ProcessSimulator logBlackProcess = new LogEulerBlackScholesProcess(numberOfPaths, times, initialValue, mu,
-				sigma, seed);
+		ProcessSimulator logBlackProcess = new LogEulerBlackScholesProcess(numberOfPaths, times, initialValue, seed, mu,
+				sigma);
 		// logBlackProcess.printPath(0);
 
 		double lastTime = finalTime;
@@ -86,11 +90,61 @@ public class ProcessTest {
 		System.out.println("The Milstein scheme variance is............: " + varianceMilstein);
 		System.out.println("The LogEuler scheme variance is............: " + varianceLogEuler);
 
+		DoubleUnaryOperator eulerTrajectory = t -> {
+			return eulerBlackProcess.getSpecificValueOfSpecificPath(0, (int) t);
+		};
+
+		DoubleUnaryOperator milsteinTrajectory = t -> {
+			return milsteinBlackProcess.getSpecificValueOfSpecificPath(0, (int) t);
+		};
+
+		DoubleUnaryOperator logEulerTrajectory = t -> {
+			return logBlackProcess.getSpecificValueOfSpecificPath(0, (int) t);
+		};
+
+		// Plot the Process
+		DecimalFormat formatterValuePlot = new DecimalFormat("#0.0000");
+
+		Plot2D plot = new Plot2D(0, times.getNumberOfTimes(), times.getNumberOfTimes() + 1,
+				Arrays.asList(new Named<DoubleUnaryOperator>(eulerBlackProcess.getName(), eulerTrajectory),
+						new Named<DoubleUnaryOperator>(milsteinBlackProcess.getName(), milsteinTrajectory),
+						new Named<DoubleUnaryOperator>(logBlackProcess.getName(), logEulerTrajectory)));
+		plot.setTitle("Process scheme trajectory");
+		plot.setXAxisLabel("time");
+		plot.setYAxisLabel("Process");
+		plot.setYAxisNumberFormat(formatterValuePlot);
+		plot.setIsLegendVisible(true);
+		plot.show();
+
+		// Zoom plot
+
+		Plot2D plotZoom = new Plot2D(30, 50, 20,
+				Arrays.asList(new Named<DoubleUnaryOperator>(eulerBlackProcess.getName(), eulerTrajectory),
+						new Named<DoubleUnaryOperator>(milsteinBlackProcess.getName(), milsteinTrajectory),
+						new Named<DoubleUnaryOperator>(logBlackProcess.getName(), logEulerTrajectory)));
+		plotZoom.setTitle("Process scheme trajectory");
+		plotZoom.setXAxisLabel("time");
+		plotZoom.setYAxisLabel("Process");
+		plotZoom.setYAxisNumberFormat(formatterValuePlot);
+		plotZoom.setIsLegendVisible(true);
+		plotZoom.show();
+
 }
 
-// Private method that generate the value of the random variable at the given
-// time under the Black Scholes model, i.e. the asset follows a geometric
-// brownian motion
+
+/**
+ * Private method that generate the value of the random variable at the given
+ * time under the Black Scholes model, i.e. the asset follows a geometric
+ * brownian motion.
+ * 
+ * @param brownian
+ * @param indexFactor
+ * @param riskFreeRate
+ * @param sigma
+ * @param initialValue
+ * @param time
+ * @return the exact solution of the Brownian motion at the specific time
+ */
 	private static RandomVariable getAssetAtSpecificTime(BrownianMotionSimple brownian, int indexFactor,
 			double riskFreeRate, double sigma, double initialValue, double time) {
 

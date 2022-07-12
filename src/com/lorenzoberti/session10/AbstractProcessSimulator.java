@@ -13,6 +13,10 @@ import net.finmath.stochastic.RandomVariable;
 import net.finmath.time.TimeDiscretization;
 
 /**
+ * This is an abstract class for the discretization and simulation of a
+ * continuous Itô process. We want to simulate dX(t) = \mu(t,X(t))dt +
+ * \sigma(t,X(t))dW(t)
+ * 
  * @author Lorenzo Berti
  *
  */
@@ -38,7 +42,6 @@ public abstract class AbstractProcessSimulator implements ProcessSimulator {
 		this.times = times;
 		this.initialValue = initialValue;
 		this.seed = seed;
-		// this.brownianIncrement = new BrownianMotionIncrement(numberOfPaths, times);
 	}
 
 	@Override
@@ -62,19 +65,20 @@ public abstract class AbstractProcessSimulator implements ProcessSimulator {
 		RandomVariable processDrift;
 		RandomVariable processDiffusion;
 
-		paths = new RandomVariable[numberOfTimes];// one random variable every time
+		paths = new RandomVariable[numberOfTimes];
 
-		paths[0] = new RandomVariableFromDoubleArray(times.getTime(0), initialValue);
+		paths[0] = new RandomVariableFromDoubleArray(initialValue);
 
-		for (int timeIndex = 1; timeIndex < times.getNumberOfTimes(); timeIndex++) {
+		for (int timeIndex = 1; timeIndex < numberOfTimes; timeIndex++) {
 
 			RandomVariable inverseOfLastSimulation = paths[timeIndex - 1].apply(inverseTransform);
 			processDrift = getDrift(inverseOfLastSimulation, timeIndex);
 			processDiffusion = getDiffusion(inverseOfLastSimulation, timeIndex);
 			RandomVariable simulatedInverseTransform = inverseOfLastSimulation.add(processDrift).add(processDiffusion);
-			// ..and then we transform back
+
 			paths[timeIndex] = simulatedInverseTransform.apply(transform);
 		}
+
 	}
 
 	/**
