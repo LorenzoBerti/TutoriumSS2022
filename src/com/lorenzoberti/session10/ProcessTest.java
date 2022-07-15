@@ -143,7 +143,8 @@ public class ProcessTest {
  * @param sigma
  * @param initialValue
  * @param time
- * @return the exact solution of the Brownian motion at the specific time
+ * @return the exact solution of the Geometric Brownian motion at the specific
+ *         time
  */
 	private static RandomVariable getAssetAtSpecificTime(BrownianMotionSimple brownian, int indexFactor,
 			double riskFreeRate, double sigma, double initialValue, double time) {
