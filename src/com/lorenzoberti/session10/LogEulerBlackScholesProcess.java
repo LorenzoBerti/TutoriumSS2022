@@ -23,8 +23,8 @@ public class LogEulerBlackScholesProcess extends AbstractProcessSimulator {
 	double mu;
 	double sigma;
 
-	public LogEulerBlackScholesProcess(int numberOfPaths, TimeDiscretization times, double initialValue, int seed,
-			double mu, double sigma) {
+	public LogEulerBlackScholesProcess(int numberOfPaths, TimeDiscretization times, double initialValue, double mu,
+			double sigma, int seed) {
 		super(numberOfPaths, times, initialValue, seed);
 		this.mu = mu;
 		this.sigma = sigma;
@@ -34,24 +34,31 @@ public class LogEulerBlackScholesProcess extends AbstractProcessSimulator {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return "Log Euler scheme Black Scholes process";
+
+		return "Log Euler Scheme Black Scholes Process";
 	}
 
+	/*
+	 * It gets and returns the drift of the logarithm of a geometric Brownian
+	 * motion, computed with the Euler scheme. That is, it simply returns
+	 * (mu-sigma^2/2)*(t_k-t_{k-1})
+	 */
 	@Override
 	protected RandomVariable getDrift(RandomVariable lastRealization, int timeIndex) {
-
 		TimeDiscretization times = getTimeDiscretization();
-
-		return new RandomVariableFromDoubleArray(times.getTime(timeIndex - 1),
+		return new RandomVariableFromDoubleArray(times.getTime(timeIndex),
 				(mu - 0.5 * sigma * sigma) * (times.getTimeStep(timeIndex - 1)));
 	}
 
+	/*
+	 * It gets and returns the diffusion of the logarithm of a geometric Brownian
+	 * motion computed with the Euler scheme. That is, it simply returns
+	 * sigma*(W_{t_k}-W_{t_{k-1}).
+	 */
 	@Override
 	protected RandomVariable getDiffusion(RandomVariable lastRealization, int timeIndex) {
-		// TODO Auto-generated method stub
-		BrownianMotionIncrement brownianIncrement = getStochasticDriver();
 
+		BrownianMotionIncrement brownianIncrement = getStochasticDriver();
 		return brownianIncrement.getIncrement(timeIndex - 1).mult(sigma);
 	}
 

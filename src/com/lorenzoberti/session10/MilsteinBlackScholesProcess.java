@@ -20,11 +20,11 @@ import net.finmath.time.TimeDiscretization;
  */
 public class MilsteinBlackScholesProcess extends AbstractProcessSimulator {
 
-	private double mu;
-	private double sigma;
+	double mu;
+	double sigma;
 
-	public MilsteinBlackScholesProcess(int numberOfPaths, TimeDiscretization times, double initialValue, int seed,
-			double mu, double sigma) {
+	public MilsteinBlackScholesProcess(int numberOfPaths, TimeDiscretization times, double initialValue, double mu,
+			double sigma, int seed) {
 		super(numberOfPaths, times, initialValue, seed);
 		this.mu = mu;
 		this.sigma = sigma;
@@ -35,32 +35,34 @@ public class MilsteinBlackScholesProcess extends AbstractProcessSimulator {
 	@Override
 	public String getName() {
 
-		return "Milstein scheme for Black Scholes process";
+		return "Milstein Scheme Black Scholes Process";
 	}
 
 	@Override
 	protected RandomVariable getDrift(RandomVariable lastRealization, int timeIndex) {
-
 		TimeDiscretization times = getTimeDiscretization();
-		double timeStep = times.getTimeStep(timeIndex - 1);
-
+		final double timeStep = times.getTimeStep(timeIndex - 1);
 		return lastRealization.mult(mu).mult(timeStep);
 	}
 
+	/*
+	 * It gets and returns the diffusion of a geometric Brownian motion computed
+	 * with the Milstein scheme.
+	 */
 	@Override
 	protected RandomVariable getDiffusion(RandomVariable lastRealization, int timeIndex) {
 
 		BrownianMotionIncrement brownianIncrement = getStochasticDriver();
 
 		TimeDiscretization times = getTimeDiscretization();
-		double timeStep = times.getTimeStep(timeIndex - 1);
+		final double timeStep = times.getTimeStep(timeIndex - 1);
 
-		RandomVariable brownianIncrementRandomVariable = brownianIncrement.getIncrement(timeIndex - 1);
+		final RandomVariable brownianIncrementRandomVariable = brownianIncrement.getIncrement(timeIndex - 1);
 
-		RandomVariable linearTerm = lastRealization.mult(sigma).mult(brownianIncrementRandomVariable);
+		final RandomVariable linearTerm = lastRealization.mult(sigma).mult(brownianIncrementRandomVariable);
 
-		RandomVariable adjustment = brownianIncrementRandomVariable.mult(brownianIncrementRandomVariable).sub(timeStep)
-				.mult(lastRealization).mult(sigma * sigma * 0.5);
+		final RandomVariable adjustment = brownianIncrementRandomVariable.mult(brownianIncrementRandomVariable)
+				.sub(timeStep).mult(lastRealization).mult(sigma * sigma * 0.5);
 
 		return linearTerm.add(adjustment);
 	}

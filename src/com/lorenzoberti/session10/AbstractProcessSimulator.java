@@ -31,7 +31,6 @@ public abstract class AbstractProcessSimulator implements ProcessSimulator {
 	private RandomVariable[] paths;// not yet initialized: default value is null
 
 	protected abstract RandomVariable getDrift(RandomVariable lastRealization, int timeIndex);
-
 	protected abstract RandomVariable getDiffusion(RandomVariable lastRealization, int timeIndex);
 
 	protected DoubleUnaryOperator transform;
@@ -42,6 +41,7 @@ public abstract class AbstractProcessSimulator implements ProcessSimulator {
 		this.times = times;
 		this.initialValue = initialValue;
 		this.seed = seed;
+		// this.brownianIncrement = new BrownianMotionIncrement(numberOfPaths, times);
 	}
 
 	@Override
@@ -65,20 +65,19 @@ public abstract class AbstractProcessSimulator implements ProcessSimulator {
 		RandomVariable processDrift;
 		RandomVariable processDiffusion;
 
-		paths = new RandomVariable[numberOfTimes];
+		paths = new RandomVariable[numberOfTimes];// one random variable every time
 
-		paths[0] = new RandomVariableFromDoubleArray(initialValue);
+		paths[0] = new RandomVariableFromDoubleArray(times.getTime(0), initialValue);
 
-		for (int timeIndex = 1; timeIndex < numberOfTimes; timeIndex++) {
+		for (int timeIndex = 1; timeIndex < times.getNumberOfTimes(); timeIndex++) {
 
 			RandomVariable inverseOfLastSimulation = paths[timeIndex - 1].apply(inverseTransform);
 			processDrift = getDrift(inverseOfLastSimulation, timeIndex);
 			processDiffusion = getDiffusion(inverseOfLastSimulation, timeIndex);
 			RandomVariable simulatedInverseTransform = inverseOfLastSimulation.add(processDrift).add(processDiffusion);
-
+			// ..and then we transform back
 			paths[timeIndex] = simulatedInverseTransform.apply(transform);
 		}
-
 	}
 
 	/**
@@ -157,5 +156,6 @@ public abstract class AbstractProcessSimulator implements ProcessSimulator {
 		plot.show();
 
 	}
+
 
 }
