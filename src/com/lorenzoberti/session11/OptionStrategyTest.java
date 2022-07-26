@@ -13,12 +13,12 @@ import com.lorenzoberti.session10.MilsteinBlackScholesProcess;
 import com.lorenzoberti.session10.ProcessSimulator;
 
 import net.finmath.exception.CalculationException;
+import net.finmath.fouriermethod.models.BlackScholesModel;
 import net.finmath.functions.AnalyticFormulas;
 import net.finmath.montecarlo.BrownianMotion;
 import net.finmath.montecarlo.BrownianMotionFromMersenneRandomNumbers;
 import net.finmath.montecarlo.RandomVariableFromDoubleArray;
 import net.finmath.montecarlo.assetderivativevaluation.MonteCarloAssetModel;
-import net.finmath.montecarlo.assetderivativevaluation.models.BlackScholesModel;
 import net.finmath.montecarlo.assetderivativevaluation.products.EuropeanOption;
 import net.finmath.montecarlo.model.ProcessModel;
 import net.finmath.montecarlo.process.EulerSchemeFromProcessModel;
@@ -77,7 +77,7 @@ public class OptionStrategyTest {
 			// Price with finmath library
 			int seed = 3013 * i;
 
-			ProcessModel blackScholesModel = new BlackScholesModel(initialValue, riskFree, sigma);
+			ProcessModel blackScholesModel = (ProcessModel) new BlackScholesModel(initialValue, riskFree, sigma);
 
 			BrownianMotion brownianMotion = new BrownianMotionFromMersenneRandomNumbers(times, 1, numberOfPaths, seed);
 
@@ -136,20 +136,20 @@ public class OptionStrategyTest {
 		plotStraddle.setYAxisNumberFormat(FORMATTERPOSITIVE);
 		plotStraddle.show();
 
-//		double strike1 = 50;
-//		double strike2 = 25;
-//		StrangleOption strangle = new StrangleOption(maturity, strike1, strike2);
-//
-//		DoubleUnaryOperator stranglePayoff = process -> {
-//			return strangle.getPayoffStrategy(process);
-//		};
-//
-//		Plot2D plotStrangle = new Plot2D(0, 75, 75, stranglePayoff);
-//		plotStrangle.setTitle("Strangle strategy payoff");
-//		plotStrangle.setXAxisLabel("Stock price");
-//		plotStrangle.setYAxisLabel("Strangle payoff");
-//		plotStrangle.setYAxisNumberFormat(FORMATTERPOSITIVE);
-//		plotStrangle.show();
+		double strike1 = 50;
+		double strike2 = 25;
+		StrangleOption strangle = new StrangleOption(maturity, strike1, strike2);
+
+		DoubleUnaryOperator stranglePayoff = process -> {
+			return strangle.getPayoffStrategy(process);
+		};
+
+		Plot2D plotStrangle = new Plot2D(0, 75, 75, stranglePayoff);
+		plotStrangle.setTitle("Strangle strategy payoff");
+		plotStrangle.setXAxisLabel("Stock price");
+		plotStrangle.setYAxisLabel("Strangle payoff");
+		plotStrangle.setYAxisNumberFormat(FORMATTERPOSITIVE);
+		plotStrangle.show();
 
 		// Straddle hedging strategy
 		int seed = 3003;
@@ -181,7 +181,7 @@ public class OptionStrategyTest {
 
 		DoubleUnaryOperator analytic = (x) -> analyticHedging;
 
-		Plot2D plotHedging = new Plot2D(0, 16, 100,
+		Plot2D plotHedging = new Plot2D(5, 14, 100,
 				Arrays.asList(new Named<DoubleUnaryOperator>("Central difference", deltaHedging),
 						new Named<DoubleUnaryOperator>("Analytic delta", analytic)));
 		plotHedging.setTitle("Delta Hedging strategy");

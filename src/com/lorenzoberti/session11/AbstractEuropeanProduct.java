@@ -31,22 +31,25 @@ public abstract class AbstractEuropeanProduct implements FinancialProductInterfa
 		RandomVariable payoff = process.getProcessAtGivenTime(maturity).appy(payoffFunction);
 
 		return payoff.mult(discountFactor).average();
+
 	}
 
 	@Override
 	public double getPriceAsDouble(ProcessSimulator process, RandomVariable discountFactor) {
 
 		RandomVariable payoff = process.getProcessAtGivenTime(maturity).appy(payoffFunction);
-		RandomVariable price = payoff.mult(discountFactor);
-		return price.getAverage();
+
+		return payoff.mult(discountFactor).getAverage();
+
 	}
 
-	// This method allows us to compute the hedging strategy
 	public double getPriceAsDouble(RandomVariable processAtMaturity, RandomVariable discountFactor) {
 
 		RandomVariable payoff = processAtMaturity.appy(payoffFunction);
 		RandomVariable price = payoff.mult(discountFactor);
 		return price.getAverage();
+
 	}
+
 
 }

@@ -19,4 +19,5 @@ public class PutOption extends AbstractEuropeanProduct {
 		this.payoffFunction = (x) -> x.sub(strike).mult(-1).floor(0.0); // Payoff: max(K-S_T,0)
 	}
 
+
 }

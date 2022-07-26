@@ -35,32 +35,32 @@ public class StraddleOption implements FinancialProductInterface {
 
 		RandomVariable callPrice = call.getPrice(process, discountFactor);
 		RandomVariable putPrice = put.getPrice(process, discountFactor);
+
 		return callPrice.add(putPrice).average();
 	}
 
 	@Override
 	public double getPriceAsDouble(ProcessSimulator process, RandomVariable discountFactor) {
 
-		return getPrice(process, discountFactor).getAverage();
+		RandomVariable callPrice = call.getPrice(process, discountFactor);
+		RandomVariable putPrice = put.getPrice(process, discountFactor);
 
+		return callPrice.add(putPrice).getAverage();
 	}
 
-	// This method allows us to print the payoff of the strategy as a function of
-	// the underlying value
-	public double getPayoffStrategy(double processValue) {
-
-		double callPayoff = Math.max(processValue - strike, 0);
-		double putPayoff = Math.max(strike - processValue, 0);
-		return (callPayoff + putPayoff);
-
-	}
-
-	// This method allows us to compute the hedging strategy by using the central
-	// difference method
+	// This method allows us to compute the hedging strategy
 	public double getPriceAsDouble(RandomVariable process, RandomVariable discountFactor) {
 
 		double callPrice = call.getPriceAsDouble(process, discountFactor);
 		double putPrice = put.getPriceAsDouble(process, discountFactor);
 		return callPrice + putPrice;
 	}
+
+	public double getPayoffStrategy(double processValue) {
+
+		double callPayoff = Math.max(processValue - strike, 0);
+		double putPayoff = Math.max(strike - processValue, 0);
+		return callPayoff + putPayoff;
+	}
+
 }

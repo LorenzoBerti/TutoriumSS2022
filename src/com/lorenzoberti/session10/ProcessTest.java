@@ -23,7 +23,7 @@ public class ProcessTest {
 	public static void main(String[] args) {
 
 		int numberOfPaths = 10000;
-		int seed = 3003;
+		int seed = 1723;
 		double initialTime = 0.0;
 		double finalTime = 1.0;
 		double timeStep = 0.1;
@@ -31,7 +31,7 @@ public class ProcessTest {
 
 		TimeDiscretization times = new TimeDiscretizationFromArray(initialTime, numberOfTimeSteps, timeStep);
 
-		double mu = 0.1;
+		double mu = 0.01;
 		double sigma = 0.3;
 
 		double initialValue = 100;
@@ -46,13 +46,14 @@ public class ProcessTest {
 		// logBlackProcess.printPath(0);
 
 		double lastTime = finalTime;
-		RandomVariable lastValueEuler = eulerBlackProcess.getProcessAtGivenTime(lastTime);
-		RandomVariable lastValueMilstein = milsteinBlackProcess.getProcessAtGivenTime(lastTime);
-		RandomVariable lastValueLogEuler = logBlackProcess.getProcessAtGivenTime(lastTime);
+		RandomVariable lastValueEuler = eulerBlackProcess.getProcessAtGivenTime(lastTime).log();
+		RandomVariable lastValueMilstein = milsteinBlackProcess.getProcessAtGivenTime(lastTime).log();
+		RandomVariable lastValueLogEuler = logBlackProcess.getProcessAtGivenTime(lastTime).log();
 
 		BrownianMotionSimple brownianMotion = new BrownianMotionSimple(numberOfPaths, times, seed);
 
-		RandomVariable lastValuePrivate = getAssetAtSpecificTime(brownianMotion, 0, mu, sigma, initialValue, lastTime);
+		RandomVariable lastValuePrivate = getAssetAtSpecificTime(brownianMotion, 0, mu, sigma, initialValue, lastTime)
+				.log();
 
 		// Take their average...
 
