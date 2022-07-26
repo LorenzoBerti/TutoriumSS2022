@@ -46,9 +46,9 @@ public class ProcessTest {
 		// logBlackProcess.printPath(0);
 
 		double lastTime = finalTime;
-		RandomVariable lastValueEuler = eulerBlackProcess.getProcessAtGivenTime(lastTime);
-		RandomVariable lastValueMilstein = milsteinBlackProcess.getProcessAtGivenTime(lastTime);
-		RandomVariable lastValueLogEuler = logBlackProcess.getProcessAtGivenTime(lastTime);
+		RandomVariable lastValueEuler = eulerBlackProcess.getProcessAtGivenTime(lastTime).log();
+		RandomVariable lastValueMilstein = milsteinBlackProcess.getProcessAtGivenTime(lastTime).log();
+		RandomVariable lastValueLogEuler = logBlackProcess.getProcessAtGivenTime(lastTime).log();
 
 		BrownianMotionSimple brownianMotion = new BrownianMotionSimple(numberOfPaths, times, seed);
 
